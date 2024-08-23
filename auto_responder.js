@@ -12,12 +12,12 @@ function applyCustomActions(data){
             if (teamUpMessagePattern.test(chatmessage)) {
                 if (Date.now() - teamUpMessageTimeOut > 15000){ // respond only once in 15 seconds
                     teamUpMessageTimeOut = Date.now();
-                    respondP2P("You Can play with YogiBytes on the Team Up Sessions, follow YogiBytes Socials for the announcement!");
+                    respondP2P("You Can play with YogiBytes on the Team Up Sessions, follow YogiBytes Socials for the announcement!", tid);
                 }
             } else if (whenDidYouPlay.test(chatmessage)) {
                 if (Date.now() - whenDidYouPlatTimeOut > 15000){ // respond only once in 15 seconds
                     whenDidYouPlatTimeOut = Date.now();
-                    respondP2P("YogiBytes Started Playing Fortnite From Chapter 1 Season 2 (2018)!");
+                    respondP2P("YogiBytes Started Playing Fortnite From Chapter 1 Season 2 (2018)!", tid);
                 }
             }
         }
