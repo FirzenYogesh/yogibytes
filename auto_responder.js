@@ -23,6 +23,11 @@ const patterns = [
         pattern: /((en?(n|g)a|wh(at|ere)|wer|do(.*)(yo)?u)(.*)(velai|job|work|do(.*)(for)?(living)))|((work(ing)?|job|velai)(.*)o?r(.*))|((full|part)(.*)(time(.*))?(stream)(.*))/ig,
         lastSentAt: 0,
         message: "YogiBytes is a Software Engineer, that's his Primary Job. YouTubing is one of his hobby!"
+    },
+    {
+        pattern: /((en?n(t|d)?h?a)(.*)|wh(at|ere|ich)|wer|do(.*)(yo)?u)(.*)(ooru?|city|stay|live|loca|country)(.*)/ig,
+        lastSentAt: 0,
+        message: "YogiBytes is from Madurai, he works in Chennai!"
     }
 ]
 
