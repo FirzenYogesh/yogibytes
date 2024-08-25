@@ -18,6 +18,11 @@ const patterns = [
         pattern: /(fav(e)?(o(u)?rite)?|p(u|i)d(u|i)cha)(\s)?(game)/ig,
         lastSentAt: 0,
         message: "YogiBytes Favorite Games are: God of War, Pokemon, Assassin's Creed, Mario, Red Dead Redemption, Batman Arkham, GTA V, GTA San Andreas, Fortnite",
+    },
+    {
+        pattern: /((en?(n|g)a|wh(at|ere)|wer|do(.*)(yo)?u)(.*)(velai|job|work|do(.*)(for)?(living)))|((work(ing)?|job|velai)(.*)o?r(.*))|((full|part)(.*)(time(.*))?(stream)(.*))/ig,
+        lastSentAt: 0,
+        message: "YogiBytes is a Software Engineer, that's his Primary Job. YouTubing is one of his hobby!"
     }
 ]
 
