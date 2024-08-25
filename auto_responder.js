@@ -1,6 +1,6 @@
 const patterns = [
     {
-        pattern: /((when|bro)(.*))?((play|join)(.*)((with|wth)(.*)(yo)?u(r)?|together|me|(sub(scriber)?s?))(game)?)|((party|team|squad)(.*)(up)?|game|(sub(scriber)?s?)|(v)?(onna)|(ung(a|o)l(a|o)da)|(k(u|o)o?da)|(se(r)?n(d|t)hu)|join|come|nam(m|b)a)(.*)(play|a(a)?d(a|u)|pan(n)?(a|u)|session|(n(e)?xt(.*)match)|v(e|a)l(a|e)d(a|u)|vara)(.*)/ig,
+        pattern: /((when|ep?po|bro)(.*))?((play|join)(.*)((with|wth)(.*)(yo)?u(r)?|together|me|(sub(scriber)?s?))(game)?)|((party|team|squad)(.*)(up)?|game|(sub(scriber)?s?)|(v)?(onna)|(ung(a|o)l(a|o)da)|(k(u|o)o?da)|(se(r)?n(d|t)hu)|join|come|nam(m|b)a)(.*)(play|a(a)?d(a|u)|pan(n)?(a|u)|session|(n(e)?xt(.*)match)|v(e|a)l(a|e)d(a|u)|vara)(.*)/ig,
         lastSentAt: 0,
         message: "You Can play with YogiBytes on the Team Up Sessions, follow YogiBytes Socials for the announcement!",
     },
