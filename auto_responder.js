@@ -35,6 +35,7 @@ const globalTimeout = 15000;
 
 function applyCustomActions(data){
     var tid = false;
+    console.log("the data is", data);
     if (data.tid) tid = data.tid;
 
     if (urlParams.has("autoRespond")) {
@@ -43,7 +44,7 @@ function applyCustomActions(data){
             for (let i = 0; i < patterns.length; i++) {
                 let item = patterns[i];
                 if(item.pattern.test(chatmessage) && Date.now() - item.lastSentAt > globalTimeout) {
-		    item.lastSentAt = Date.now();
+		            item.lastSentAt = Date.now();
                     respondP2P(item.message, tid);
                 }
             }
