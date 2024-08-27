@@ -52,6 +52,7 @@ function applyCustomActions(data){
                     console.log(`Responding to ${chatmessage} with ${item.message}`, item);
                     item.lastSentAt[data.type] = Date.now();
                     respondP2P(item.message, tid);
+                    break;
                 }
             }
         }
