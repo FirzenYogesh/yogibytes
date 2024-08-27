@@ -1,4 +1,8 @@
-const patterns = [
+const commandReplaceString = "##COMMAND##"
+const linkMessage = `Here is the ${commandReplaceString} Link `
+const instagramProfile = "@yogibytes.gaming"
+
+const responses = [
     {
         pattern: /((when|ep?po|bro)(.*))?((play|join)(.*)((with|wth)(.*)(yo)?u(r)?|together|me|(sub(scriber)?s?))(game)?)|((party|team|squad)(.*)(up)?|game|(sub(scriber)?s?)|(v)?(onna)|(ung(a|o)l(a|o)da)|(k(u|o)o?da)|(se(r)?n(d|t)hu)|join|come|nam(m|b)a)(.*)(play|a(a)?d(a|u)|pan(n)?(a|u)|session|(n(e)?xt(.*)match)|v(e|a)l(a|e)d(a|u)|vara)(.*)/ig,
         lastSentAt: {},
@@ -28,9 +32,46 @@ const patterns = [
         pattern: /((en?n(t|d)?h?a)(.*)|wh(at|ere|ich)|wer|do(.*)(yo)?u)(.*)(ooru?|city|stay|live|loca|country)(.*)/ig,
         lastSentAt: {},
         message: "YogiBytes is from Madurai, he works in Chennai!"
+    },
+    {
+        pattern: "!discord",
+        lastSentAt: {},
+        platformSpecificMessage: {
+            instagramlive: `The ${commandReplaceString} Link is available in ${instagramProfile} bio`,
+        },
+        message: `${linkMessage}https://discord.gg/TTjgB3EDnT`
+    },
+    {
+        pattern: "!youtube",
+        lastSentAt: {},
+        platformSpecificMessage: {
+            instagramlive: `The ${commandReplaceString} Link is available in ${instagramProfile} bio`,
+        },
+        message: `${linkMessage}https://www.youtube.com/@YogiBytes.Gaming`
+    },
+    {
+        pattern: "!twitch",
+        lastSentAt: {},
+        platformSpecificMessage: {
+            instagramlive: `The ${commandReplaceString} Link is available in ${instagramProfile} bio`,
+        },
+        message: `${linkMessage}https://www.twitch.tv/yogibytes`
+    },
+    {
+        pattern: "!socials",
+        lastSentAt: {},
+        platformSpecificMessage: {
+            instagramlive: `The ${commandReplaceString} Link is available in ${instagramProfile} bio`,
+        },
+        message: `${linkMessage}https://taplink.cc/yogibytes.gaming`
     }
 ]
 
+function capitalizeWord(s) {
+    return (s && s[0].toUpperCase() + s.slice(1)) || "";
+}
+
+// this is in milliseconds
 const globalTimeout = 15000;
 
 function applyCustomActions(data){
@@ -41,17 +82,15 @@ function applyCustomActions(data){
     if (urlParams.has("autoRespond")) {
         if (!["yogibytes.studio", "yogibytesstudio", "yogibytes studio"].includes(data.chatname.toLowerCase())) {
             let chatmessage = data.chatmessage;
-            for (let i = 0; i < patterns.length; i++) {
-                let item = patterns[i];
-                let lastSentAt = item.lastSentAt[data.type];
-                if (!lastSentAt) {
-                    lastSentAt = 0;
-                }
-                
-                if(item.pattern.test(chatmessage) && Date.now() - lastSentAt > globalTimeout) {
-                    console.log(`Responding to ${chatmessage} with ${item.message}`, item);
+            for (let i = 0; i < responses.length; i++) {
+                let item = responses[i];
+                let lastSentAt = item.lastSentAt[data.type] || 0;
+                if((item.pattern == chatmessage || item.pattern.test(chatmessage)) && Date.now() - lastSentAt > globalTimeout) {
+                    let message = (platformSpecificMessage[data.type] || item.message)
+                                    .replace(commandReplaceString, capitalizeWord(item.pattern));
                     item.lastSentAt[data.type] = Date.now();
-                    respondP2P(item.message, tid);
+                    console.log(`Responding to ${chatmessage} with ${message}`, item);
+                    respondP2P(message, tid);
                     break;
                 }
             }
