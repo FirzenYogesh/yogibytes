@@ -47,8 +47,10 @@ function applyCustomActions(data){
                 if (!lastSentAt) {
                     lastSentAt = 0;
                 }
+                
                 if(item.pattern.test(chatmessage) && Date.now() - lastSentAt > globalTimeout) {
-                    item.lastSentAt[data.type] = Date.now()
+                    console.log(`Responding to ${chatmessage} with ${item.message}`, item);
+                    item.lastSentAt[data.type] = Date.now();
                     respondP2P(item.message, tid);
                 }
             }
