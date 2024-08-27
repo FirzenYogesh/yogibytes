@@ -43,6 +43,7 @@ function applyCustomActions(data){
             for (let i = 0; i < patterns.length; i++) {
                 let item = patterns[i];
                 if(item.pattern.test(chatmessage) && Date.now() - item.lastSentAt > globalTimeout) {
+		    item.lastSentAt = Date.now();
                     respondP2P(item.message, tid);
                 }
             }
