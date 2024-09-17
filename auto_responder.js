@@ -84,10 +84,8 @@ function applyCustomActions(data){
             let chatmessage = data.chatmessage;
             for (let i = 0; i < responses.length; i++) {
                 let item = responses[i];
-                let lastSentAt = item.lastSentAt[data.type] || 0;
-                if((item.pattern == chatmessage || item.pattern.test(chatmessage)) && Date.now() - lastSentAt > globalTimeout) {
-                    let message = (platformSpecificMessage[data.type] || item.message)
-                                    .replace(commandReplaceString, capitalizeWord(item.pattern));
+                if(checkIfMessageMatches(item, chatmessage) && checkIfCrossedTimeout(item)) {
+                    let message = formReplyMessage(item);
                     item.lastSentAt[data.type] = Date.now();
                     console.log(`Responding to ${chatmessage} with ${message}`, item);
                     respondP2P(message, tid);
@@ -98,4 +96,24 @@ function applyCustomActions(data){
     }
 	
     return data; // return the data, if you want to modify it. If you return "null", it will stop the processing. (also false works, but I'll deprecate that I think)
+}
+
+function checkIfMessageMatches(item, message) {
+    try {
+        if (typeof item.pattern === 'string' || item.pattern instanceof String) {
+            return item.pattern == message;
+        } else if (item.pattern instanceof RegExp || item.pattern.constructor == RegExp) {
+            return item.pattern.test(message);
+        }
+    } catch (e) {}
+    return false;
+}
+
+function checkIfCrossedTimeout(item) {
+    return (Date.now() - item.lastSentAt[data.type] || 0) > globalTimeout;
+}
+
+function formReplyMessage(item) {
+    return (item.platformSpecificMessage?.[data.type] || item.message)
+            .replace(commandReplaceString, capitalizeWord(item.pattern));
 }
