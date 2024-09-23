@@ -84,8 +84,8 @@ function applyCustomActions(data){
             let chatmessage = data.chatmessage;
             for (let i = 0; i < responses.length; i++) {
                 let item = responses[i];
-                if(checkIfMessageMatches(item, chatmessage) && checkIfCrossedTimeout(item)) {
-                    let message = formReplyMessage(item);
+                if(checkIfMessageMatches(item, chatmessage) && checkIfCrossedTimeout(item, data)) {
+                    let message = formReplyMessage(item, data);
                     item.lastSentAt[data.type] = Date.now();
                     console.log(`Responding to ${chatmessage} with ${message}`, item);
                     respondP2P(message, tid);
@@ -109,11 +109,11 @@ function checkIfMessageMatches(item, message) {
     return false;
 }
 
-function checkIfCrossedTimeout(item) {
+function checkIfCrossedTimeout(item, data) {
     return (Date.now() - item.lastSentAt[data.type] || 0) > globalTimeout;
 }
 
-function formReplyMessage(item) {
+function formReplyMessage(item, data) {
     return (item.platformSpecificMessage?.[data.type] || item.message)
             .replace(commandReplaceString, capitalizeWord(item.pattern));
 }
