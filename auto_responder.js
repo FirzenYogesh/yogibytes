@@ -80,8 +80,10 @@ function applyCustomActions(data){
     if (data.tid) tid = data.tid;
 
     if (urlParams.has("autoRespond")) {
+        console.log("auto responder active")
         if (!["yogibytes.studio", "yogibytesstudio", "yogibytes studio"].includes(data.chatname.toLowerCase())) {
             let chatmessage = data.chatmessage;
+            console.log("checking non bot chat")
             for (let i = 0; i < responses.length; i++) {
                 let item = responses[i];
                 if(checkIfMessageMatches(item, chatmessage) && checkIfCrossedTimeout(item, data)) {
@@ -99,21 +101,29 @@ function applyCustomActions(data){
 }
 
 function checkIfMessageMatches(item, message) {
+    console.log("checking if message matches a pattern")
+    let isPatternMatching = false
     try {
         if (typeof item.pattern === 'string' || item.pattern instanceof String) {
-            return item.pattern == message;
+            isPatternMatching = item.pattern == message;
         } else if (item.pattern instanceof RegExp || item.pattern.constructor == RegExp) {
-            return item.pattern.test(message);
+            isPatternMatching = item.pattern.test(message);
         }
-    } catch (e) {}
-    return false;
+    } catch (e) {
+        console.log("error while checking message matches a pattern", e);
+    }
+    console.log("pattern matched", isPatternMatching);
+    return isPatternMatching;
 }
 
 function checkIfCrossedTimeout(item, data) {
-    return (Date.now() - item.lastSentAt[data.type] || 0) > globalTimeout;
+    let hasCrossedTimeout = (Date.now() - item.lastSentAt[data.type] || 0) > globalTimeout;
+    console.log("has crossed timeout", hasCrossedTimeout)
+    return hasCrossedTimeout;
 }
 
 function formReplyMessage(item, data) {
+    console.log("Forming a reply")
     return (item.platformSpecificMessage?.[data.type] || item.message)
             .replace(commandReplaceString, capitalizeWord(item.pattern));
 }
