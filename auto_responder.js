@@ -68,7 +68,7 @@ const responses = [
 ]
 
 function capitalizeWord(s) {
-    return (s && s[0].toUpperCase() + s.slice(1)) || "";
+    return (s && (typeof s === 'string' || s instanceof String)) ? s[0].toUpperCase() + s.slice(1) : "";
 }
 
 // this is in milliseconds
