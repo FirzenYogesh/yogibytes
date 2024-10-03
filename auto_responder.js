@@ -119,7 +119,8 @@ function checkIfMessageMatches(item, message) {
 }
 
 function checkIfCrossedTimeout(item, data) {
-    let hasCrossedTimeout = (Date.now() - item.lastSentAt[data.type] || 0) > globalTimeout;
+    let timeDiff = Date.now() - item.lastSentAt[data.type] || 0;
+    let hasCrossedTimeout = timeDiff === 0 || timeDiff > globalTimeout;
     console.log("has crossed timeout", hasCrossedTimeout)
     return hasCrossedTimeout;
 }
