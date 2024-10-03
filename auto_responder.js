@@ -105,8 +105,10 @@ function checkIfMessageMatches(item, message) {
     let isPatternMatching = false
     try {
         if (typeof item.pattern === 'string' || item.pattern instanceof String) {
+            console.log("Item is of String")
             isPatternMatching = item.pattern == message;
         } else if (item.pattern instanceof RegExp || item.pattern.constructor == RegExp) {
+            console.log("Item is of RegEx")
             isPatternMatching = item.pattern.test(message);
         }
     } catch (e) {
