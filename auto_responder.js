@@ -86,7 +86,10 @@ function applyCustomActions(data){
             console.log("checking non bot chat")
             for (let i = 0; i < responses.length; i++) {
                 let item = responses[i];
-                if(checkIfMessageMatches(item, chatmessage) && checkIfCrossedTimeout(item, data)) {
+                let messageMatches = checkIfMessageMatches(item, chatmessage);
+                let hasCrossedTimeout = checkIfCrossedTimeout(item, data);
+                console.log(`messageMatches? ${messageMatches} :: hasCrossedTimeout? ${hasCrossedTimeout}`)
+                if(messageMatches && hasCrossedTimeout) {
                     let message = formReplyMessage(item, data);
                     item.lastSentAt[data.type] = Date.now();
                     console.log(`Responding to ${chatmessage} with ${message}`, item);
@@ -101,32 +104,26 @@ function applyCustomActions(data){
 }
 
 function checkIfMessageMatches(item, message) {
-    console.log("checking if message matches a pattern")
     let isPatternMatching = false
     try {
         if (typeof item.pattern === 'string' || item.pattern instanceof String) {
-            console.log("Item is of String")
             isPatternMatching = item.pattern == message;
         } else if (item.pattern instanceof RegExp || item.pattern.constructor == RegExp) {
-            console.log("Item is of RegEx")
             isPatternMatching = item.pattern.test(message);
         }
     } catch (e) {
         console.log("error while checking message matches a pattern", e);
     }
-    console.log("pattern matched", isPatternMatching);
     return isPatternMatching;
 }
 
 function checkIfCrossedTimeout(item, data) {
     let timeDiff = Date.now() - item.lastSentAt[data.type] || 0;
     let hasCrossedTimeout = timeDiff === 0 || timeDiff > globalTimeout;
-    console.log("has crossed timeout", hasCrossedTimeout)
     return hasCrossedTimeout;
 }
 
 function formReplyMessage(item, data) {
-    console.log("Forming a reply")
     return (item.platformSpecificMessage?.[data.type] || item.message)
             .replace(commandReplaceString, capitalizeWord(item.pattern));
 }
